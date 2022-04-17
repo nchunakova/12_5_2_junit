@@ -12,21 +12,21 @@ import static com.codeborne.selenide.Selenide.$$;
 public class WebTest {
 
     @CsvSource(value = {
-            "Alden | 12000",
-            "Kierra | 2000"
+            "амурский лесной | Авторы Художник: А.С. Кунац. Скульптор: Е.И. Новикова. Чеканка: Санкт-Петербургский " +
+                    "монетный двор (СПМД). Оформление гурта: 252 рифления.",
+            "кота в мешке | Мисселинг, или Как не купить кота в мешке"
     },
             delimiter = '|'
     )
 
-    @ParameterizedTest(name = "Поиск по имени {0}, ожидаем результат: {1}")
+    @ParameterizedTest(name = "Поиск по слову {0}, ожидаем результат: {1}")
     void tableComplexTest(String testData, String expectedResult) {
 //        Предусловия:
-        Selenide.open("https://demoqa.com/webtables");
+        Selenide.open("https://www.cbr.ru/");
 //        Шаги
-        $("#searchBox").setValue(testData);
-        //$("#submit").click();
+        $(".home-header_search_inp").setValue(testData).pressEnter();
 //        Ожидаемый результат:
-        $$(".rt-td")
+        $$(".subtitle")
                 .find(Condition.text(expectedResult))
                 .shouldBe(Condition.visible);
     }
