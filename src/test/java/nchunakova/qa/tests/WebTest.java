@@ -22,7 +22,7 @@ public class WebTest {
     void yaSearchTest(String testData) {
 //        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги
+//        Шаги:
         $(".home-header_search_inp").setValue(testData).pressEnter();
 //        Ожидаемый результат:
         $$(".subtitle")
@@ -42,7 +42,7 @@ public class WebTest {
     void tableComplexTest(String testData, String expectedResult) {
 //        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги
+//        Шаги:
         $(".home-header_search_inp").setValue(testData).pressEnter();
 //        Ожидаемый результат:
         $$(".subtitle")
