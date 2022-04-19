@@ -2,18 +2,23 @@ package nchunakova.qa.tests;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
+import nchunakova.qa.domain.TestEnumItem;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class WebTest {
 
-    // to give one type at once
     @ParameterizedTest(name = "Проверка поиска на сайте центробанка по слову {0}")
     @ValueSource(strings = {
             "ПНД",
@@ -48,6 +53,23 @@ public class WebTest {
         $$(".subtitle")
                 .find(Condition.text(expectedResult))
                 .shouldBe(Condition.visible);
+    }
+
+    @DisplayName("Смена фильтров для результата выдачи поиска через enum")
+    @EnumSource(TestEnumItem.class)
+    @ParameterizedTest()
+    void yaSearchMenuTest(TestEnumItem testData) {
+//        Предусловия:
+        Selenide.open("https://www.cbr.ru/");
+//        Шаги:
+        $(".home-header_search_inp").setValue("ПНД").pressEnter();
+        $(withText("За все время")).click();
+//        Ожидаемый результат:
+        $$(".filter-select_option")
+                .find(Condition.text(testData.searchFilter))
+                .click();
+
+        //System.out.println(TestEnumItem.FIRSTBUTTON.searchFilter);
     }
 
     @AfterEach
