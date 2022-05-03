@@ -22,11 +22,8 @@ public class WebTest {
             "Санкции"
     })
     void yaSearchTest(String testData) {
-//        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги:
         $(".home-header_search_inp").setValue(testData).pressEnter();
-//        Ожидаемый результат:
         $$(".subtitle").find(Condition.text(testData)).shouldBe(Condition.visible);
     }
 
@@ -40,11 +37,8 @@ public class WebTest {
             delimiter = '|'
     )
     void tableComplexTest(String testData, String expectedResult) {
-//        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги:
         $(".home-header_search_inp").setValue(testData).pressEnter();
-//        Ожидаемый результат:
         $$(".subtitle").find(Condition.text(expectedResult)).shouldBe(Condition.visible);
     }
 
@@ -52,18 +46,12 @@ public class WebTest {
     @EnumSource(TestEnumItem.class)
     @ParameterizedTest()
     void yaSearchMenuTest(TestEnumItem testData) {
-//        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги:
         $(".home-header_search_inp").setValue("ПНД").pressEnter();
         $(withText("За все время")).click();
-//        Ожидаемый результат:
         $$(".filter-select_option").find(Condition.text(testData.searchFilter)).click();
-
         //System.out.println(TestEnumItem.FIRSTBUTTON.searchFilter);
     }
-
-
 
     static Stream<Arguments> stringProvider() {
         return Stream.of(
@@ -77,11 +65,8 @@ public class WebTest {
     @DisplayName("Простой пример MethodSource: ищем по тексту {0} подзаголовок {1} в результате поисковой выдачи сайта")
     @MethodSource("stringProvider")
     void testWithMultiArgMethodSource(String first, String second) {
-        //        Предусловия:
         Selenide.open("https://www.cbr.ru/");
-//        Шаги:
         $(".home-header_search_inp").setValue(first).pressEnter();
-//        Ожидаемый результат:
         $$(".subtitle").find(Condition.text(second)).shouldBe(Condition.visible);
     }
 
